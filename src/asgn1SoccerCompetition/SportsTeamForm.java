@@ -1,9 +1,6 @@
 package asgn1SoccerCompetition;
-
 import java.util.LinkedList;
-
 import asgn1SportsUtils.WLD;
-
 
 /**
  * A data structure to store the 'form' of a sports team, that is the 
@@ -14,24 +11,26 @@ import asgn1SportsUtils.WLD;
  * will then be added to the front. 
  * 
  *  
- * @author Alan Woodley
+ * @author Matthew Holdsworth
  *
  */
 public class SportsTeamForm {
-
-	// The number of recent games to show as the recent form of the team
+	// The number of recent games to show in the recent form of the team
 	private static final int maxLength = 5;
-
-
+	// Creates the data structure to hold the W,L,D match results
+	private LinkedList<WLD> matchResult = new LinkedList<WLD>();
+	// Declares no match symbol '-' to be used when no match is played
+	private String noMatch = "-";
+	// Variable to store the number of games
+	private int numGames;
+	
 	/**
 	 * Constructs the data structure that holds the match results (win, loss, draw) for recent matches.
 	 * For simplicity the results for the last 5 matches will be stored.
 	 * 
 	 */
 	public SportsTeamForm() {
-		// TODO
-		
-	}
+	}//end constructor
 	
 	/**
 	 * Adds a new result to the data structure. If the number of games played is less than 5 then the 
@@ -43,10 +42,20 @@ public class SportsTeamForm {
 	 * @param result The result of the latest match
 	 *
 	 */
-	public void addResultToForm(WLD result){ 
-		// TODO
-		
-	}
+	public void addResultToForm(WLD result){
+		// Increments the number of games played even if it is more than the maximum value
+		numGames += 1;
+		// If there is less than 5 games played
+		if (matchResult.size() < maxLength) {
+			// Adds new result to matchResult at the front of the list
+			matchResult.addFirst(result);
+		} else {
+			// Destroys the last element in the list
+			matchResult.removeLast();
+			// Adds the new result to the front of the list
+			matchResult.addFirst(result);
+		}// end if-else
+	}// end addResultToForm
 	
 	/**
 	 * Returns a string that represents the results of the last few matches that a team has played. 
@@ -60,9 +69,24 @@ public class SportsTeamForm {
 	 * @return A string representing the results of recent matches.
 	 */
 	public String toString(){
-		// TO DO
-	}
-	
+		// Declares an empty string to store the results
+		String results = "";
+		// Declares the size of the empty string variable
+		int stringSize;
+		// For each result in linked list matchResult, the result is added to the string
+		for (WLD result: matchResult) {
+			results += result.toString().charAt(0);
+		}// End for loop
+		
+		// If the linked list size is less than the maximum length
+		if(matchResult.size() < maxLength) {
+			// While the stringSize is less than the linked list size, a no match symbol ("-") is added to result
+			for(stringSize = matchResult.size(); stringSize < maxLength; stringSize++) {
+				results += noMatch;
+			}// End for loop
+		}// End if
+		return results;
+	}// end toString
 	
 	/**
 	 * Returns the number of games played  
@@ -70,14 +94,17 @@ public class SportsTeamForm {
 	 * @return The number of games played. 
 	 */
 	public int getNumGames(){
-		// TO DO
-	}
+		return numGames;
+	}//end
 	
 	/**
 	 * Resets the data structure to its initial values.
 	 */
-	public void resetForm(){
-		// TO DO
-	}
+	public void resetForm() {
+		// Clears the linked list of previous data
+		matchResult.clear();
+		// Resets the number of games played
+		numGames = 0;
+	}//end
 	
-}
+}//end SportsTeamForm

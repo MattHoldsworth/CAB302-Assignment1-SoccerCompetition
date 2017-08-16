@@ -1,27 +1,16 @@
-/**
- * A concrete class that represents a soccer team.
- * 
- * @author Alan Woodley
- * @version 1.0
- *
- */
-
 package asgn1SoccerCompetition;
-
 import asgn1Exceptions.TeamException;
 import asgn1SportsUtils.WLD;
-
 
 /**
  * A class to model a soccer team. The team contains a series of statistics which are altered throughout
  * a season depending on the results from their matches. 
  * 
- * @author Alan Woodley
+ * @author Matthew Holdsworth
  * @version 1.0
  *
  */
 public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
-	
 	private String officialName;
 	private String nickName;
 	private int goalsScoredSeason;
@@ -30,7 +19,9 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	private int matchesLost;
 	private int matchesDrawn;	
 	private int competitionPoints;
-	private SportsTeamForm form; 
+	private SportsTeamForm form;
+	private int unrealisticMin = 0;
+	private int unrealisticMax = 20;
 		
 	/**
 	 * Creates a Soccer Team with the specified official name and nick name.
@@ -40,19 +31,21 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * @throws TeamException If either the official or nick are empty strings.
 	 */
 	public SoccerTeam(String official, String nick) throws TeamException{
-		
-		// TO DO: ADD TESTS FOR EXCEPTIONS
-		
-		this.officialName = official;
-		this.nickName = nick;
-		this.goalsScoredSeason = 0;
-		this.goalsConcededSeason = 0;
-		this.matchesWon = 0;
-		this.matchesLost = 0;
-		this.matchesDrawn = 0;
-		this.competitionPoints = 0;
-		form= new SportsTeamForm();
-	}
+		// Determines whether a name is missing from the entries
+		if ((official.isEmpty()) || (nick.isEmpty())) {
+			throw new TeamException("One of the names is missing!");
+		} else {
+			this.officialName = official;
+			this.nickName = nick;
+			this.goalsScoredSeason = 0;
+			this.goalsConcededSeason = 0;
+			this.matchesWon = 0;
+			this.matchesLost = 0;
+			this.matchesDrawn = 0;
+			this.competitionPoints = 0;
+			form = new SportsTeamForm();
+		}//end if-else
+	}//end constructor
 	
 	/**
 	 * Displays a String that provides details about the team. The format of the string is as follows
@@ -62,8 +55,9 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * 
 	 */
 	public void displayTeamDetails(){
-		System.out.println(officialName  + '\t' + nickName + '\t' + form + '\t' + (+ matchesWon + matchesLost + matchesDrawn) + '\t' + matchesWon + '\t' + matchesLost + '\t' + matchesDrawn +'\t' + goalsScoredSeason + '\t' + goalsConcededSeason + '\t' + this.getGoalDifference() + '\t' + competitionPoints);
-	}	
+		System.out.println(officialName  + '\t' + nickName + '\t' + form + '\t' + (+ matchesWon + matchesLost + matchesDrawn) + '\t' + matchesWon +
+				'\t' + matchesLost + '\t' + matchesDrawn +'\t' + goalsScoredSeason + '\t' + goalsConcededSeason + '\t' + this.getGoalDifference() + '\t' + competitionPoints);
+	}//end
 	
 	/**
 	 * Returns the team's official name.
@@ -71,7 +65,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public String getOfficialName(){
 		return officialName;
-	}
+	}//end
 
 	/**
 	 * Returns the team's nick name.
@@ -79,7 +73,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public String getNickName(){
 		return nickName;
-	}
+	}//end
 	
 	/**
 	 * Returns the goals scored by the team so far this season.
@@ -87,7 +81,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getGoalsScoredSeason(){
 		return goalsScoredSeason;
-	}
+	}//end
 
 	/**
 	 * Returns the goals conceded (goals scored by other teams against this team) by the team so far this season.
@@ -95,7 +89,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getGoalsConcededSeason(){
 		return goalsConcededSeason;
-	}
+	}//end
 
 	/**
 	 * Returns the number of matches won by the team so far this season.
@@ -103,7 +97,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getMatchesWon(){
 		return matchesWon;
-	}
+	}//end
 
 	/**
 	 * Returns the number of matches lost by the team so far this season.
@@ -111,7 +105,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getMatchesLost(){
 		return matchesLost;
-	}
+	}//end
 
 	/**
 	 * Returns the number of matches drawn by the team so far this season.
@@ -119,7 +113,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getMatchesDrawn(){
 		return matchesDrawn;
-	}
+	}//end
 	
 	/**
 	 * Returns the number competition points of the team so far this season.
@@ -127,7 +121,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getCompetitionPoints(){
 		return competitionPoints;
-	}
+	}//end
 		
 	/**
 	 * Returns the goal difference (goals scored minus goals conceded) for the team
@@ -136,7 +130,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public int getGoalDifference(){
 		return (goalsScoredSeason-goalsConcededSeason);
-	}
+	}//end
 	
 	
 	/**
@@ -145,7 +139,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 */
 	public String getFormString(){
 		return form.toString();
-	}
+	}//end
 	
 	
 	/**
@@ -156,10 +150,25 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * @throws TeamException If the number of goals scored or conceded is an unrealistic number (less than 0 or greater than 20).
 	 */
 	public void playMatch(int goalsFor, int goalsAgainst) throws TeamException{
-
-		// TO DO
-		
-	}	
+		goalsScoredSeason = goalsFor;
+		goalsConcededSeason = goalsAgainst;
+		if(goalsFor < unrealisticMin || goalsFor > unrealisticMax){
+			throw new TeamException("This is an unrealistic amount of goals scored!");
+		} else if(goalsAgainst < unrealisticMin || goalsAgainst > unrealisticMax){
+			throw new TeamException("This is an unrealistic amount of goals conceded!");
+		} else if (goalsScoredSeason < goalsConcededSeason) {
+			matchesLost += 1;
+			form.addResultToForm(WLD.LOSS);
+		} else if (goalsScoredSeason > goalsConcededSeason) {
+			matchesWon += 1;
+			competitionPoints += 3;
+			form.addResultToForm(WLD.WIN);
+		} else {
+			matchesDrawn += 1;
+			competitionPoints += 1;
+			form.addResultToForm(WLD.DRAW);
+		}//end if-else
+	}//end playMatch
 	
 	/**
 	 * Compares one team to another team.
@@ -182,11 +191,8 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 			if((other.getGoalDifference()) == (this.getGoalDifference())){ 
 				return this.officialName.compareTo(other.officialName);
 			} return (other.getGoalDifference()) - (this.getGoalDifference());
-		} else return other.competitionPoints -  this.competitionPoints;
-		
-		
-	}
-	
+		} else return other.competitionPoints - this.competitionPoints;
+	}//end compareTo
 		
 	/**
 	 * Resets the teams values to their original values.
@@ -199,7 +205,5 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 		this.matchesDrawn = 0;
 		this.competitionPoints = 0;	
 		form.resetForm();
-
-	}
-
-}
+	}//end resetStats
+}//end SoccerTeam
